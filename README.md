@@ -30,32 +30,89 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 ---
 
 ## 🗂 프로젝트 구조
-<h3>📁 프로젝트 디렉터리 구조</h3>
+<h2>📁 프로젝트 디렉토리 구조</h2>
 
 <pre>
 com.example.orderstatbatch
-├── <b>config/</b>               # 배치 Job/Step 설정 클래스
-│   └── <i>BatchJobConfig.java</i>         - 전체 배치 설정 등록
-│   └── <i>DatabaseConfig.java</i>         - 데이터베이스 설정 등록
+├── config/                        # 배치 Job/Step 설정 및 DB 설정
+│   ├── BatchJobConfig.java
+│   └── DatabaseConfig.java
 │
-├── <b>job/</b>                  # 배치 작업 단위(Job)별 디렉터리
-│   └── <b>orderstat/</b>        # 주문 통계 관련 배치
-│       ├── <i>OrderReader.java</i>         - 주문 데이터 읽기 (ItemReader)
-│       ├── <i>OrderProcessor.java</i>      - 주문 상태별 통계 계산 (ItemProcessor)
-│       ├── <i>OrderWriter.java</i>         - 통계 결과 DB 저장 (ItemWriter)
-│       └── <i>OrderReportTasklet.java</i>  - 콘솔에 통계 리포트 출력 (Tasklet)
+├── job/                           # 배치 작업 단위(Job)별 디렉터리
+│   └── orderstat/                # 주문 통계 관련 배치
+│       ├── OrderReader.java      # MyBatis를 이용해 주문 데이터 읽기
+│       ├── OrderProcessor.java   # 주문 상태별 통계 계산
+│       ├── OrderWriter.java      # 통계 DB 저장
+│       └── OrderReportTasklet.java # 통계 결과 콘솔 출력
 │
-├── <b>domain/</b>               # Entity 및 DTO 정의
-│   ├── <i>Order.java</i>                - 주문 엔티티
-│   ├── <i>Product.java</i>              - 상품 엔티티
-│   └── <i>OrderStatistic.java</i>       - 통계 결과 엔티티
+├── domain/                        # VO, DTO
+│   ├── Order.java
+│   ├── Product.java
+│   └── OrderStatistic.java
 │
-├── <b>repository/</b>           # Spring Data JPA 리포지토리
-│   └── <i>OrderRepository.java</i>
+├── mapper/                        # MyBatis 매퍼 인터페이스
+│   ├── OrderMapper.java
+│   └── OrderStatisticMapper.java
 │
-├── <b>service/</b>              # 비즈니스 로직 계층
-│   └── <i>OrderStatService.java</i>     - 통계 계산 및 헬퍼 서비스
+├── mapper_xml/                    # MyBatis 매퍼 XML 파일 (resources 위치)
+│   ├── OrderMapper.xml
+│   └── OrderStatisticMapper.xml
 │
-└── <b>OrderStatBatchApplication.java</b>  # 메인 클래스 (Spring Boot 실행 진입점)
+├── service/                       # 통계 계산 등 비즈니스 로직
+│   └── OrderStatService.java
+│
+└── OrderStatBatchApplication.java # 메인 클래스
 </pre>
+
+<h2>📌 디렉토리 설명</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>디렉토리</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>config/</code></td>
+      <td>배치 설정 및 데이터베이스(MyBatis 포함) 설정을 담당</td>
+    </tr>
+    <tr>
+      <td><code>job/orderstat/</code></td>
+      <td>배치 Job 및 Step 구성 요소 포함 (Reader, Processor, Writer, Tasklet)</td>
+    </tr>
+    <tr>
+      <td><code>domain/</code></td>
+      <td>도메인 객체 (Entity, DTO 등)</td>
+    </tr>
+    <tr>
+      <td><code>mapper/</code></td>
+      <td>MyBatis 매퍼 인터페이스 (Java)</td>
+    </tr>
+    <tr>
+      <td><code>mapper_xml/</code></td>
+      <td>MyBatis XML 매퍼 파일 (쿼리 정의, 일반적으로 <code>resources</code> 내에 위치)</td>
+    </tr>
+    <tr>
+      <td><code>service/</code></td>
+      <td>통계 계산 등 비즈니스 로직 처리</td>
+    </tr>
+    <tr>
+      <td><code>OrderStatBatchApplication.java</code></td>
+      <td>Spring Boot 메인 실행 클래스</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>⚙️ MyBatis 설정 예시 (application.yml)</h2>
+
+<pre>
+<code>
+mybatis:
+  type-aliases-package: com.example.orderstatbatch.domain
+  mapper-locations: classpath:mapper_xml/*.xml
+</code>
+</pre>
+
 
