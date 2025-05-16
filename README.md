@@ -58,5 +58,3 @@ com.example.orderstatbatch
 └── <b>OrderStatBatchApplication.java</b>  # 메인 클래스 (Spring Boot 실행 진입점)
 </pre>
 
-<p>각 디렉터리는 책임에 따라 분리되어 있어 유지보수가 용이하며, <code>job/orderstat</code> 디렉터리는 해당 배치 작업에 필요한 모든 구성 요소를 포함합니다.</p>
-
