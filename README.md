@@ -105,14 +105,4 @@ com.example.orderstatbatch
   </tbody>
 </table>
 
-<h2>⚙️ MyBatis 설정 예시 (application.yml)</h2>
-
-<pre>
-<code>
-mybatis:
-  type-aliases-package: com.example.orderstatbatch.domain
-  mapper-locations: classpath:mapper_xml/*.xml
-</code>
-</pre>
-
 
