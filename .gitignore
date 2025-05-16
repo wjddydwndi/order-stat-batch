@@ -1,0 +1,51 @@
+# Java build
+*.class
+
+# Log files
+*.log
+logs/
+*.out
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+*.sublime-workspace
+*.sublime-project
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spring Boot
+application.yml
+application.properties
+.env
+
+# Database
+*.h2.db
+*.mv.db
+*.db
+
+# Test reports
+/test-output/
+/surefire-reports/
+
+# CSV or sample data
+*.csv
+*.sql
+
+# IntelliJ coverage files
+coverage/
