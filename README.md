@@ -36,6 +36,7 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 com.example.orderstatbatch
 ├── <b>config/</b>               # 배치 Job/Step 설정 클래스
 │   └── <i>BatchJobConfig.java</i>         - 전체 배치 설정 등록
+│   └── <i>DatabaseConfig.java</i>         - 데이터베이스 설정 등록
 │
 ├── <b>job/</b>                  # 배치 작업 단위(Job)별 디렉터리
 │   └── <b>orderstat/</b>        # 주문 통계 관련 배치
