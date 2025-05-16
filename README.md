@@ -29,8 +29,7 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 
 ---
 
-## 🗂 프로젝트 구조
-<h2>📁 프로젝트 디렉토리 구조</h2>
+## 📁 프로젝트 디렉토리 구조</h2>
 
 <pre>
 com.example.orderstatbatch
