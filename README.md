@@ -30,27 +30,33 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 ---
 
 ## 🗂 프로젝트 구조
+<h3>📁 프로젝트 디렉터리 구조</h3>
 
+<pre>
 com.example.orderstatbatch
-├── config/               # 배치 Job/Step 설정 클래스
-│   └── BatchJobConfig.java
+├── <b>config/</b>               # 배치 Job/Step 설정 클래스
+│   └── <i>BatchJobConfig.java</i>         - 전체 배치 설정 등록
 │
-├── job/                  # 배치 작업 단위(Job)별 디렉터리
-│   └── orderstat/        # 주문 통계 관련 배치
-│       ├── OrderReader.java
-│       ├── OrderProcessor.java
-│       ├── OrderWriter.java
-│       └── OrderReportTasklet.java
+├── <b>job/</b>                  # 배치 작업 단위(Job)별 디렉터리
+│   └── <b>orderstat/</b>        # 주문 통계 관련 배치
+│       ├── <i>OrderReader.java</i>         - 주문 데이터 읽기 (ItemReader)
+│       ├── <i>OrderProcessor.java</i>      - 주문 상태별 통계 계산 (ItemProcessor)
+│       ├── <i>OrderWriter.java</i>         - 통계 결과 DB 저장 (ItemWriter)
+│       └── <i>OrderReportTasklet.java</i>  - 콘솔에 통계 리포트 출력 (Tasklet)
 │
-├── domain/               # Entity, DTO
-│   ├── Order.java
-│   ├── Product.java
-│   └── OrderStatistic.java
+├── <b>domain/</b>               # Entity 및 DTO 정의
+│   ├── <i>Order.java</i>                - 주문 엔티티
+│   ├── <i>Product.java</i>              - 상품 엔티티
+│   └── <i>OrderStatistic.java</i>       - 통계 결과 엔티티
 │
-├── repository/           # Spring Data JPA Repositories
-│   └── OrderRepository.java
+├── <b>repository/</b>           # Spring Data JPA 리포지토리
+│   └── <i>OrderRepository.java</i>
 │
-├── service/              # 통계 계산 등 비즈니스 로직
-│   └── OrderStatService.java
+├── <b>service/</b>              # 비즈니스 로직 계층
+│   └── <i>OrderStatService.java</i>     - 통계 계산 및 헬퍼 서비스
 │
-└── OrderStatBatchApplication.java
+└── <b>OrderStatBatchApplication.java</b>  # 메인 클래스 (Spring Boot 실행 진입점)
+</pre>
+
+<p>각 디렉터리는 책임에 따라 분리되어 있어 유지보수가 용이하며, <code>job/orderstat</code> 디렉터리는 해당 배치 작업에 필요한 모든 구성 요소를 포함합니다.</p>
+
