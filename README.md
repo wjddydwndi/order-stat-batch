@@ -20,12 +20,12 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 
 ## 🛠 기술 스택
 
-- Java 17+
-- Spring Boot 3.x
+- Java 17
+- Spring Boot 3.3.11
 - Spring Batch
-- MySQL (또는 H2 - 테스트용)
+- MySQL
 - Lombok
-- Gradle (또는 Maven)
+- Gradle
 
 ---
 
