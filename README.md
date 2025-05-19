@@ -36,11 +36,10 @@ com.example.orderstatbatch
 │   ├── BatchJobConfig.java        # 배치 Job/Step 설정
 │   └── DatabaseConfig.java        # DB 설정 (MyBatis 연결)
 │
-├── job/                           # 배치 작업 단위(Job)별 디렉터리
-│   └── orderstat/                 # 주문 통계 관련 배치
-│       ├── ReadOrdersTasklet.java # MyBatis를 이용해 주문 데이터 읽기
-│       ├── WriteSettlementTasklet.java # 정산 결과 DB 저장
-│       └── OrderReportTasklet.java # 통계 결과 콘솔 출력
+├── job/orderstat/                 # 배치 작업 단위(Job)별 디렉터리 / 주문 통계 관련 배치
+│   ├── ReadOrdersTasklet.java     # MyBatis를 이용해 주문 데이터 읽기
+│   ├── WriteSettlementTasklet.java # 정산 결과 DB 저장
+│   └── OrderReportTasklet.java    # 통계 결과 콘솔 출력
 │
 ├── domain/                        # VO, DTO
 │   ├── Order.java                 # 주문 도메인 객체
