@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.orderstatbatch.mapper.OrderSettlementMapper">
+    <insert id="insertSettlement" parameterType="OrderSettlement">
+        /* insertSettlement */
+        INSERT INTO order_settlements (
+            settlement_date,
+            total_order_count,
+            total_completed_count,
+            total_cancelled_count,
+            total_amount,
+            completed_amount,
+            cancelled_amount,
+            average_order_amount
+        ) VALUES (
+        #{settlementDate},
+        #{totalOrderCount},
+        #{totalCompletedCount},
+        #{totalCancelledCount},
+        #{totalAmount},
+        #{completedAmount},
+        #{cancelledAmount},
+        #{averageOrderAmount}
+        )
+    </insert>
+
+    <select id="selectLatestSettlement" resultType="OrderSettlement">
+        /* selectLatestSettlement */
+        SELECT settlement_date,
+               total_order_count,
+               total_completed_count,
+               total_cancelled_count,
+               total_amount,
+               completed_amount,
+               cancelled_amount,
+               average_order_amount
+        FROM order_settlements
+        ORDER BY id DESC LIMIT 1
+    </select>
+</mapper>

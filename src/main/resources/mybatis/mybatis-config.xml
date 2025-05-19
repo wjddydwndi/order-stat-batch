@@ -11,9 +11,9 @@
     </settings>
 
     <typeAliases>
-        <typeAlias alias="TicketEvent" type="com.example.orderstatbatch.domain.Order" />
-        <typeAlias alias="TicketEvent" type="com.example.orderstatbatch.domain.OrderStatistic" />
-        <typeAlias alias="TicketEvent" type="com.example.orderstatbatch.domain.Product" />
+        <typeAlias alias="Order" type="com.example.orderstatbatch.domain.Order" />
+        <typeAlias alias="OrderSettlement" type="com.example.orderstatbatch.domain.OrderSettlement" />
+        <typeAlias alias="Product" type="com.example.orderstatbatch.domain.Product" />
     </typeAliases>
 </configuration>
 

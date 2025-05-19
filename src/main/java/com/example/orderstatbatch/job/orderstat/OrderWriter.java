@@ -1,35 +1,34 @@
 package com.example.orderstatbatch.job.orderstat;
 
-import com.example.orderstatbatch.domain.OrderStatistic;
-import com.example.orderstatbatch.mapper.OrderStatisticMapper;
+import com.example.orderstatbatch.domain.OrderSettlement;
+import com.example.orderstatbatch.mapper.OrderSettlementMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class OrderWriter implements ItemWriter<OrderStatistic> {
+@RequiredArgsConstructor
+public class OrderWriter implements ItemWriter<OrderSettlement> {
 
-    private final OrderStatisticMapper orderStatisticMapper;
+    private final OrderSettleAggregator orderSettleAggregator;
 
-    public OrderWriter(OrderStatisticMapper orderStatisticMapper) {
-        this.orderStatisticMapper = orderStatisticMapper;
-    }
+    private final OrderSettlementMapper orderSettlementMapper;
 
     @Override
-    public void write(Chunk<? extends OrderStatistic> chunk) throws Exception {
-        for (OrderStatistic stat : chunk) {
-            // DB에 존재하는 통계가 있을 경우, 카운트만 갱신
-            OrderStatistic existingStat = orderStatisticMapper.findByOrderStatus(stat.getOrderStatus());
-            if (existingStat != null) {
-                // 기존 통계 업데이트 (카운트 증가)
-                existingStat.setOrderCount(existingStat.getOrderCount() + stat.getOrderCount());
-                orderStatisticMapper.save(existingStat);
-            } else {
-                // 새로운 통계 추가
-                orderStatisticMapper.save(stat);
-            }
+    public void write(Chunk<? extends OrderSettlement> chunk) throws Exception {
+        List<? extends OrderSettlement> items = chunk.getItems();
+
+        if (items == null || items.isEmpty()) {
+            return;
         }
+
+        LocalDate settlementDate = LocalDate.now();
+        OrderSettlement summary = orderSettleAggregator.aggregate(items, settlementDate);
+
+        orderSettlementMapper.insertSettlement(summary);
     }
 }

@@ -2,5 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.orderstatbatch.mapper.OrderMapper">
+    <resultMap id="OrderWithDetailsMap" type="com.example.orderstatbatch.domain.Order">
+        <id property="id" column="id"/>
+        <result property="status" column="status"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="amount" column="amount"/>
+        <result property="customerId" column="customer_id"/>
+        <collection property="orderDetails" ofType="com.example.orderstatbatch.domain.OrderDetails">
+            <id property="productId" column="product_id"/>
+            <result property="quantity" column="quantity"/>
+            <result property="totalPrice" column="total_price"/>
+        </collection>
+    </resultMap>
+
+    <select id="findOrdersWithDetails" resultMap="OrderWithDetailsMap">
+        SELECT o.id, o.status, o.order_date, o.amount, o.customer_id,
+               d.product_id, d.quantity, d.total_price
+        FROM orders AS o
+        LEFT OUTER JOIN order_details d ON o.id = d.order_id
+        ORDER BY o.id ASC
+        LIMIT #{offset}, #{limit}
+    </select>
 
 </mapper>
