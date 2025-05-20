@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.orderstatbatch.mapper.OrderSettlementMapper">
+    <resultMap id="OrderSettlementMap" type="OrderSettlement">
+        <id property="id" column="id"/>
+        <result property="settlementDate" column="settlement_date"/>
+        <result property="totalOrderCount" column="total_order_count"/>
+        <result property="totalCompletedCount" column="total_completed_count"/>
+        <result property="totalAmount" column="customer_id"/>
+        <result property="completedAmount" column="completed_amount"/>
+        <result property="cancelledAmount" column="cancelled_amount"/>
+        <result property="average_order_amount" column="averageOrderAmount"/>
+
+    </resultMap>
+
     <insert id="insertSettlement" parameterType="OrderSettlement">
         /* insertSettlement */
         INSERT INTO order_settlements (
@@ -25,9 +37,10 @@
         )
     </insert>
 
-    <select id="selectLatestSettlement" resultType="OrderSettlement">
+    <select id="selectLatestSettlement" resultMap="OrderSettlementMap">
         /* selectLatestSettlement */
-        SELECT settlement_date,
+        SELECT id,
+               settlement_date,
                total_order_count,
                total_completed_count,
                total_cancelled_count,
@@ -35,7 +48,6 @@
                completed_amount,
                cancelled_amount,
                average_order_amount
-        FROM order_settlements
-        ORDER BY id DESC LIMIT 1
+        FROM order_settlements ORDER BY id DESC LIMIT 1
     </select>
 </mapper>

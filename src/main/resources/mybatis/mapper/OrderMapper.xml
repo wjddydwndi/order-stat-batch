@@ -15,7 +15,7 @@
         </collection>
     </resultMap>
 
-    <select id="findOrdersWithDetails" resultMap="OrderWithDetailsMap">
+    <select id="findOrdersWithDetails" parameterType="Map" resultMap="OrderWithDetailsMap">
         SELECT o.id, o.status, o.order_date, o.amount, o.customer_id,
                d.product_id, d.quantity, d.total_price
         FROM orders AS o

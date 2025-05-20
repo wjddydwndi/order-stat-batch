@@ -3,7 +3,7 @@ package com.example.orderstatbatch.enums;
 public enum StatusEnums {
 
     code_order_status_completed("COMPLETED"),
-    code_order_status_canceled("CANCELED");
+    code_order_status_cancelled("CANCELLED");
 
     String code;
 

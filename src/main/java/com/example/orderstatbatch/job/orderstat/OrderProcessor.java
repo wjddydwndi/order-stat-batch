@@ -21,7 +21,7 @@ public class OrderProcessor implements ItemProcessor<Order, OrderSettlement> {
         if (StatusEnums.code_order_status_completed.getCode().equals(order.getStatus())) {
             settlement.setTotalCompletedCount(1);
             settlement.setCompletedAmount(order.getAmount());
-        } else if (StatusEnums.code_order_status_canceled.getCode().equals(order.getStatus())) {
+        } else if (StatusEnums.code_order_status_cancelled.getCode().equals(order.getStatus())) {
             settlement.setTotalCancelledCount(1);
             settlement.setCancelledAmount(order.getAmount());
         }

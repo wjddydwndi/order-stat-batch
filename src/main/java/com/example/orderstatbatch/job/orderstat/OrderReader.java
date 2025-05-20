@@ -3,15 +3,11 @@ package com.example.orderstatbatch.job.orderstat;
 import com.example.orderstatbatch.domain.Order;
 import com.example.orderstatbatch.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.batch.MyBatisPagingItemReader;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+
 import java.util.List;
 
 @Configuration

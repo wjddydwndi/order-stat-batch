@@ -2,6 +2,7 @@ package com.example.orderstatbatch.job.orderstat;
 
 import com.example.orderstatbatch.domain.OrderSettlement;
 import com.example.orderstatbatch.mapper.OrderSettlementMapper;
+import com.example.orderstatbatch.service.OrderSettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -13,13 +14,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderReportTasklet implements Tasklet {
 
-    private final OrderSettlementMapper orderSettlementMapper;
+    private final OrderSettlementService orderSettlementService;
 
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         // 최근 생성된 정산 결과를 DB에서 조회
-        OrderSettlement latestSettlement = orderSettlementMapper.selectLatestSettlement();
+        OrderSettlement latestSettlement = orderSettlementService.selectLatestSettlement();
 
         // 통계 출력
         System.out.println("=== 배치 작업 결과 ===");

@@ -2,6 +2,7 @@ package com.example.orderstatbatch.job.orderstat;
 
 import com.example.orderstatbatch.domain.OrderSettlement;
 import com.example.orderstatbatch.mapper.OrderSettlementMapper;
+import com.example.orderstatbatch.service.OrderSettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -16,7 +17,7 @@ public class OrderWriter implements ItemWriter<OrderSettlement> {
 
     private final OrderSettleAggregator orderSettleAggregator;
 
-    private final OrderSettlementMapper orderSettlementMapper;
+    private final OrderSettlementService orderSettlementService;
 
     @Override
     public void write(Chunk<? extends OrderSettlement> chunk) throws Exception {
@@ -29,6 +30,6 @@ public class OrderWriter implements ItemWriter<OrderSettlement> {
         LocalDate settlementDate = LocalDate.now();
         OrderSettlement summary = orderSettleAggregator.aggregate(items, settlementDate);
 
-        orderSettlementMapper.insertSettlement(summary);
+        orderSettlementService.insertSettlement(summary);
     }
 }
