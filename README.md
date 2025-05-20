@@ -12,7 +12,7 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 
 - 주문(order) 데이터를 매일 자동으로 읽어 통계 생성
 - 주문 상태별 건수 및 총 매출 집계 (`ORDERED`, `SHIPPED`, `DELIVERED`, `CANCELLED`, `RETURNED`)
-- 통계 결과를 DB(`order_statistics`)에 저장
+- 정산 결과를 DB(`order_settlements`)에 저장
 - 콘솔 로그를 통해 관리자에게 통계 리포트 출력
 - Spring Batch의 기본 개념(Reader, Processor, Writer, Step, Job 등)을 학습하기 좋은 구조
 
