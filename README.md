@@ -29,39 +29,46 @@ Spring Boot + Spring Batch 기반의 주문 통계 처리 시스템입니다.
 
 ---
 
-## 📁 프로젝트 디렉토리 구조</h2>
+<h2>📁 프로젝트 디렉토리 구조</h2>
+
 <pre>
 com.example.orderstatbatch
-├── config/                        # 배치 Job/Step 설정 및 DB 설정
-│   ├── BatchJobConfig.java        # 배치 Job/Step 설정
-│   └── DatabaseConfig.java        # DB 설정 (MyBatis 연결)
+├── <b>config/</b>                        
+│   ├── <b>BatchJobConfig.java</b>        - 배치 Job/Step 설정
+│   └── <b>DatabaseConfig.java</b>        - DB 설정 (MyBatis 연결)
+│   └── <b>SchedulerConfig.java</b>       - 스케줄러 설정
 │
-├── job/orderstat/                 # 배치 작업 단위(Job)별 디렉터리 / 주문 통계 관련 배치
-│   ├── ReadOrdersTasklet.java     # MyBatis를 이용해 주문 데이터 읽기
-│   ├── WriteSettlementTasklet.java # 정산 결과 DB 저장
-│   └── OrderReportTasklet.java    # 통계 결과 콘솔 출력
+├── <b>job/orderstat/</b>                 
+│   ├── <b>OrderReader.java</b>                       - MyBatis를 이용해 주문 데이터 읽기
+│   ├── <b>OrderProcessor.java</b>                    - 정산 결과 DB 저장
+│   ├── <b>OrderWriter.java</b>                       - 정산 결과 DB 저장
+│   └── <b>OrderReportTasket.java</b>                 - 정산 결과 콘솔 출력
+│   └── <b>OrderSettleAggrepator.java</b>             - 정산 계산
+│   └── <b>JobCompletionNotificationListener.java</b> - 배치 결과 알림
 │
-├── domain/                        # VO, DTO
-│   ├── Order.java                 # 주문 도메인 객체
-│   ├── Product.java               # 상품 도메인 객체
-│   ├── OrderDetails.java          # 주문 상세 도메인 객체
-│   └── OrderSettlement.java       # 정산 결과 도메인 객체
+├── <b>scheduler</b>                        
+│   ├── <b>OrderStatScheduler.java</b>                 - 배치 스케줄러 
+├── <b>domain/</b>                        
+│   ├── <b>Order.java</b>                 - 주문 도메인 객체
+│   ├── <b>Product.java</b>               - 상품 도메인 객체
+│   ├── <b>OrderDetails.java</b>          - 주문 상세 도메인 객체
+│   └── <b>OrderSettlement.java</b>       - 정산 결과 도메인 객체
 │
-├── mapper/                        # MyBatis 매퍼 인터페이스
-│   ├── OrderMapper.java           # 주문 관련 MyBatis 매퍼 인터페이스
-│   └── OrderStatisticMapper.java  # 통계 관련 MyBatis 매퍼 인터페이스
+├── <b>mapper/</b>                        
+│   ├── <b>OrderMapper.java</b>           - 주문 관련 MyBatis 매퍼 인터페이스
+│   └── <b>OrderSettlementMapper.java</b>  - 정산 관련 MyBatis 매퍼 인터페이스
 │
-├── mapper_xml/                    # MyBatis 매퍼 XML 파일 (resources 위치)
-│   ├── OrderMapper.xml            # 주문 관련 MyBatis 매퍼 XML
-│   └── OrderStatisticMapper.xml   # 통계 관련 MyBatis 매퍼 XML
+├── <b>mapper_xml/</b>                    
+│   ├── <b>OrderMapper.xml</b>            - 주문 관련 MyBatis 매퍼 XML
+│   └── <b>OrderSettlementMapper.xml</b>   - 정산 관련 MyBatis 매퍼 XML
 │
-├── service/                       # 통계 계산 등 비즈니스 로직
-│   └── OrderStatService.java      # 주문 통계 계산 서비스
-│   └── OrderStatisticService.java # 통계 계산 서비스
-│   └── SettlementService.java     # 정산 결과 저장 서비스
+├── <b>service/</b>                       
+│   ├── <b>OrderStatService.java</b>      - 주문 통계 계산 서비스
+│   └── <b>OrderSettlementService.java</b> - 정산 결과 저장 서비스
 │
-└── OrderStatBatchApplication.java # Spring Boot 메인 클래스
+└── <b>OrderStatBatchApplication.java</b> - Spring Boot 메인 클래스
 </pre>
+
 
 
 <h2>📌 디렉토리 설명</h2>
@@ -79,14 +86,18 @@ com.example.orderstatbatch
         배치 작업(Job)과 Step 설정 및 데이터베이스 연결 설정을 담당하는 클래스들입니다. <br/><br/>
         <code>BatchJobConfig.java</code>: 배치 작업 및 Step을 설정하는 클래스입니다. <br/><br/>
         <code>DatabaseConfig.java</code>: 데이터베이스 연결 설정 및 MyBatis 설정을 담당합니다.
+        <code>SchedulerConfig.java</code>: 스케줄러 설정을 담당합니다.
       </td>
     </tr>
     <tr>
       <td><code>job/orderstat/</code></td>
       <td>
         주문 통계 관련 배치 작업이 정의된 디렉토리입니다. <br/><br/>
-        <code>ReadOrdersTasklet.java</code>: MyBatis를 이용해 주문 데이터를 읽어오는 작업을 수행합니다. <br/><br/>
-        <code>WriteSettlementTasklet.java</code>: 정산 결과를 DB에 저장하는 작업을 수행합니다. <br/><br/>
+        <code>JobCompetletionNotificationListener.java</code>: batch 작업 완료 알림을 수행합니다.<br/><br/>
+        <code>OrderReader.java</code>: MyBatis를 이용해 주문 데이터를 읽어오는 작업을 수행합니다. <br/><br/>
+        <code>OrderProcessor.java</code>: 정산 작업을 수행합니다. <br/><br/>
+        <code>OrderWriter.java</code>: 정산 결과를 DB에 저장하는 작업을 수행합니다. <br/><br/>
+        <code>OrderSettleAggregator.java</code>: 저장 데이터 세팅 작업을 합니다. <br/><br/>
         <code>OrderReportTasklet.java</code>: 배치 실행 결과(통계)를 콘솔에 출력합니다.
       </td>
     </tr>
@@ -105,7 +116,7 @@ com.example.orderstatbatch
       <td>
         MyBatis 매퍼 인터페이스가 위치한 디렉토리입니다. <br/><br/>
         <code>OrderMapper.java</code>: 주문과 관련된 MyBatis 쿼리를 정의하는 인터페이스입니다. <br/><br/>
-        <code>OrderStatisticMapper.java</code>: 주문 통계 및 정산과 관련된 MyBatis 쿼리를 정의하는 인터페이스입니다.
+        <code>OrderSettlementMapper.java</code>: 주문 정산과 관련된 MyBatis 쿼리를 정의하는 인터페이스입니다.
       </td>
     </tr>
     <tr>
@@ -113,16 +124,15 @@ com.example.orderstatbatch
       <td>
         MyBatis의 XML 매퍼 파일들이 위치하는 디렉토리입니다. <br/><br/>
         <code>OrderMapper.xml</code>: 주문과 관련된 SQL 쿼리를 정의한 XML 파일입니다. <br/><br/>
-        <code>OrderStatisticMapper.xml</code>: 주문 통계 및 정산 관련 SQL 쿼리를 정의한 XML 파일입니다.
+        <code>OrderSettlementMapper.xml</code>: 주문 정산 관련 SQL 쿼리를 정의한 XML 파일입니다.
       </td>
     </tr>
     <tr>
       <td><code>service/</code></td>
       <td>
-        비즈니스 로직 및 통계 계산, 정산 결과 저장 등을 담당하는 서비스 클래스들이 위치한 디렉토리입니다. <br/><br/>
+        비즈니스 로직 및 정산 결과 저장 등을 담당하는 서비스 클래스들이 위치한 디렉토리입니다. <br/><br/>
         <code>OrderStatService.java</code>: 주문 통계 계산과 관련된 비즈니스 로직을 수행합니다. <br/><br/>
-        <code>OrderStatisticService.java</code>: 전체적인 통계 계산을 처리하는 서비스입니다. <br/><br/>
-        <code>SettlementService.java</code>: 정산 결과를 처리하고 저장하는 서비스입니다.
+        <code>OrderSettlementService.java</code>: 정산 결과를 처리하고 저장하는 서비스입니다.
       </td>
     </tr>
     <tr>
